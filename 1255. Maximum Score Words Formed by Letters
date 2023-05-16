@@ -1,0 +1,33 @@
+class Solution {
+    //word.length is small so we can apply normal recursion 
+    int solve(vector<string>& words, unordered_map<char,int>& mp, vector<int>& score,int index){
+        if(index==words.size())return 0;
+        // not take
+        int first = solve(words,mp,score,index+1);
+        int second = 0;
+        bool flag = true;
+        int sc = 0;
+        for(int i=0; i<words[index].length(); i++){
+            if(mp[words[index][i]]<=0){
+                flag = false;
+            }
+            sc += score[words[index][i]-'a'];
+            mp[words[index][i]]--;
+        }
+        if(flag){
+            second = solve(words,mp,score,index+1) + sc;
+        }
+        for(int i=0; i<words[index].length(); i++){
+            mp[words[index][i]]++;
+        }
+        return max(first,second);
+    }
+public:
+    int maxScoreWords(vector<string>& words, vector<char>& letters, vector<int>& score) {
+        unordered_map<char,int> mp;
+        for(int i=0; i<letters.size(); i++){
+            mp[letters[i]]++;
+        }
+        return solve(words,mp,score,0);
+    }
+};
