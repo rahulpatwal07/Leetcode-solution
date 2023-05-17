@@ -1,0 +1,40 @@
+class Solution {
+    int solve(vector<int>&nums, int s, int e){
+        if(s>e)return 0;
+        int cnt = 0,n = nums.size();
+        for(int i=s; i<=e; i++){
+            if(nums[i]<0)cnt++;
+        }
+        if(cnt%2==0){
+            return e-s+1;
+        }
+        int ans = 0;
+        for(int i=s; i<=e; i++){
+            if(nums[i]<0){
+                ans = max(ans,e-i);
+                break;
+            }
+        }
+        for(int i=e; i>=s; i--){
+            if(nums[i]<0){
+                ans = max(ans,i-s);
+                break;
+            }
+        }
+        return ans;
+    }
+public:
+    int getMaxLen(vector<int>& nums) {
+        int i = 0,j = i,n = nums.size(),ans = 0;
+        while(j<n){
+            if(nums[j]==0){
+                ans = max(ans,solve(nums,i,j-1));
+                i = j+1;
+            }
+            j++;
+        }
+        ans = max(ans,solve(nums,i,j-1));
+        return ans;
+
+    }
+};
