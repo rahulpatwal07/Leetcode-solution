@@ -1,0 +1,35 @@
+class Solution {
+public:
+    vector<vector<string>> mostPopularCreator(vector<string>& creators, vector<string>& ids, vector<int>& views) {
+        vector<vector<string>> ans;
+        map<string,long long> totalViews;
+        map<string,pair<string,int>> maximumViews;
+        for(int i=0; i<ids.size(); i++){
+            totalViews[creators[i]] += views[i];
+            if(maximumViews.find(creators[i])==maximumViews.end()){
+                maximumViews[creators[i]] = {ids[i],views[i]};
+            }
+            else{ 
+                if(maximumViews[creators[i]].second < views[i]){
+                    maximumViews[creators[i]].first = ids[i];
+                    maximumViews[creators[i]].second = views[i];
+                }
+                else if(maximumViews[creators[i]].second == views[i] && maximumViews[creators[i]].first > ids[i]){
+                    maximumViews[creators[i]].first = ids[i];
+                }
+            }
+        }
+        long long maxi = 0;
+        for(auto it : totalViews){
+            if(it.second > maxi){
+                maxi = it.second;
+            }
+        }
+        for(auto it : totalViews){
+            if(it.second == maxi){
+                ans.push_back({it.first,maximumViews[it.first].first});
+            }
+        }
+        return ans;
+    }
+};
