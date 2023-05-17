@@ -1,0 +1,30 @@
+class Solution {
+public:
+    vector<long long> getDistances(vector<int>& arr) {
+        int n = arr.size();
+        vector<long long> intervals(n);
+        vector<long long> suff(n,0),pref(n,0),suffOcur(n,0),prefOcur(n,0);
+        unordered_map<int,long long> mp,mp2;
+        for(int i=0; i<n; i++){
+            mp[arr[i]]++;
+            mp2[arr[i]] += i;
+            pref[i] += mp2[arr[i]];
+            prefOcur[i] = mp[arr[i]];
+        }
+        mp.clear();
+        mp2.clear();
+        for(int i=n-1; i>=0; i--){
+            mp[arr[i]]++;
+            mp2[arr[i]] += i;
+            suff[i] += mp2[arr[i]];
+            suffOcur[i] = mp[arr[i]];
+        }
+        for(int i=0; i<n; i++){
+            long long sum = 0;
+            sum += (prefOcur[i]*i - pref[i]);
+            sum += (suff[i] - suffOcur[i]*i);
+            intervals[i] = sum;
+        }
+        return intervals;
+    }
+};
