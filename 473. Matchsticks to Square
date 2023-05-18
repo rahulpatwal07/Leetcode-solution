@@ -1,0 +1,31 @@
+class Solution {
+    bool solve(int index, int side, vector<int>&v,vector<int>&dp){
+        if(index==v.size()){
+            return dp[0]==dp[1]&&dp[1]==dp[2]&&dp[2]==dp[3]&&dp[3]==side;
+        }
+        for(int i=0; i<4; i++){
+            if(dp[i]+v[index] <=side){
+                dp[i] += v[index];
+                if(solve(index+1,side,v,dp)){
+                    return true;
+                }
+                dp[i] -= v[index];
+            }
+        }
+        return false;
+    }
+public:
+    bool makesquare(vector<int>& matchsticks) {
+        int len = 0;
+        int n = matchsticks.size();
+        for(int i=0; i<n; i++){
+            len += matchsticks[i];
+        }
+        if(len%4!=0){
+            return false;
+        }
+        vector<int> dp(4,0);
+        sort(matchsticks.begin(), matchsticks.end(), greater<int>());
+        return solve(0,len/4,matchsticks,dp);
+    }
+};
