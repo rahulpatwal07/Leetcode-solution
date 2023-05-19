@@ -1,0 +1,35 @@
+class Solution {
+    bool solve(vector<int>& nums,int ind,int k,int sum, int target,vector<int>&vis){
+        if(k==1){
+            return true;
+        }
+        if(ind==nums.size()){
+            return false;
+        }
+        if(sum==target){
+            return solve(nums,0,k-1,0,target,vis);
+        }
+        if(vis[ind]==0 && sum+nums[ind]<=target){
+            vis[ind] = 1;
+            if(solve(nums,ind+1,k,sum+nums[ind],target,vis)){
+                return true;
+            }
+            vis[ind] = 0;
+        }
+        return solve(nums,ind+1,k,sum,target,vis);
+    }
+public:
+    bool canPartitionKSubsets(vector<int>& nums, int k) {
+        long long sum = 0;
+        sum = accumulate(nums.begin(),nums.end(),sum);
+        if(sum%k!=0){
+            return false;
+        }
+        int n = nums.size();
+        vector<int> vis(n,0);
+        int target = sum/k;
+        sort(nums.begin(),nums.end(),greater<int>());
+        return solve(nums,0,k,0,target,vis);
+
+    }
+};
