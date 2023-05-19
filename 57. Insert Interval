@@ -1,0 +1,44 @@
+class Solution {
+public:
+    vector<vector<int>> insert(vector<vector<int>>& inter, vector<int>& v) {
+        int j = 0;
+        vector<vector<int>> ans;
+        bool flag = false;
+        while(j<inter.size()){
+            if(inter[j][1] < v[0]){
+                ans.push_back(inter[j]);
+                j++;
+            }
+            else if(v[1] < inter[j][0]){
+                ans.push_back(v);
+                flag = true;
+                break;
+            }
+            else{
+                if(inter[j][0] > v[1]){
+                    ans.push_back(v);
+                    break;
+                }
+                int s = min(v[0],inter[j][0]);
+                int e = max(inter[j][1],v[1]);
+                j++;
+                while(j<inter.size() && inter[j][0]<=e){
+                    e = max(inter[j][1],e);
+                    j++;
+                }
+                ans.push_back({s,e});
+                flag = true;
+                break;
+            }
+        }
+        while(j<inter.size()){
+            ans.push_back(inter[j]);
+            j++;
+        }
+        if(!flag){
+            ans.push_back(v);
+        }
+        return ans;
+    }
+
+};
