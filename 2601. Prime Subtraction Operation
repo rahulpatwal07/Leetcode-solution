@@ -1,0 +1,37 @@
+class Solution {
+    int prime[1001] = {0};
+    void mark(int num){
+        for(int i=num; i*num<1001; i++){
+            prime[i*num] = 1;
+        }
+    }
+    int perform(int n, int mn, int mx){
+        for(int i=n-1; i>=2; i--){
+            if(prime[i]==0 && n-i>mn && n-i<mx){
+                return i;
+            }
+        }
+        return 0;
+    }
+public:
+    bool primeSubOperation(vector<int>& nums) {
+        for(int i=2; i<=1000; i++){
+            if(prime[i]==0){
+                mark(i);
+            }
+        }
+        int mn = 0;
+        for(int i=0; i<nums.size(); i++){
+            int mx = i<nums.size()-1 ? nums[i+1] : 1e9;
+            int num = perform(nums[i],mn,mx);
+            nums[i] -= num;
+            if(i-1>=0 && nums[i]<=nums[i-1]){
+                return false;
+            }
+            mn = nums[i];
+        }
+        return true;
+        
+        
+    }
+};
