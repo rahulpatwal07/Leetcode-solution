@@ -1,0 +1,51 @@
+class Solution {
+    void dfs(string src, string dest, unordered_map<string,vector<pair<string,double>>>& mp,map<string,int> &vis,double&val,bool& found){
+        if(found==true){
+            return ;
+        }
+        if(src==dest){
+            found = true;
+            return ;
+        }
+        vis[src] = 1;
+        for(auto it : mp[src]){
+            if(vis.find(it.first)==vis.end()){
+                val *= it.second;
+                dfs(it.first,dest,mp,vis,val,found);
+                if(found==true){
+                    return ;
+                }
+                val /= it.second;
+            }
+        }
+        return ;
+    }
+public:
+    vector<double> calcEquation(vector<vector<string>>& equations, vector<double>& values, vector<vector<string>>& queries) {
+        vector<double> ans;
+        unordered_map<string,vector<pair<string,double>>> mp;
+        for(int i=0; i<equations.size(); i++){
+            mp[equations[i][0]].push_back(make_pair(equations[i][1],values[i]));
+            mp[equations[i][1]].push_back(make_pair(equations[i][0],1.0/values[i]));
+        }
+        for(int i=0; i<queries.size(); i++){
+            string src = queries[i][0];
+            string dest = queries[i][1];
+            map<string,int> vis;
+            double val = 1;
+            if(mp.find(src)==mp.end() || mp.find(dest)==mp.end() ){
+                ans.push_back(-1);
+                continue;
+            }
+            bool found = false;
+            dfs(src,dest,mp,vis,val,found); 
+            if(!found){
+                ans.push_back(-1);
+            }
+            else{
+                ans.push_back(val);
+            }
+        }
+        return ans;
+    }
+};
