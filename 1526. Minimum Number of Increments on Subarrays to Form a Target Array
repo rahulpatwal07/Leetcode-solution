@@ -1,0 +1,17 @@
+class Solution {
+public:
+    int minNumberOperations(vector<int>& target) {
+        int n = target.size();
+        if(n==1){
+            return target[0];
+        }
+        int ans = 0;
+        for(int i=1; i<n; i++){
+            if(target[i-1] > target[i]){
+                ans += (target[i-1] - target[i]);
+            }
+        }
+        ans += target[n-1];
+        return ans;
+    }
+};
