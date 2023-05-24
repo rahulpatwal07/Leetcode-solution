@@ -1,0 +1,32 @@
+class Solution {
+    static bool cmp(pair<int,int>& a, pair<int,int>&b){
+        return a.first > b.first;
+    }
+public:
+    long long maxScore(vector<int>& nums1, vector<int>& nums2, int k) {
+        priority_queue<pair<int,int>,vector<pair<int,int>>,greater<pair<int,int>>> pq;
+        vector<pair<int,int>> v;
+        for(int i=0; i<nums1.size(); i++){
+            v.push_back({nums1[i],i});
+        }
+        sort(v.begin(),v.end(),cmp);
+        long long sum = 0;
+        long long ans = 0;
+        for(int i=0; i<k; i++){
+            sum += v[i].first;
+            pq.push({nums2[v[i].second],v[i].second});
+        }
+        ans = sum*(pq.top().first);
+        for(int i=k; i<v.size(); i++){
+            auto it = pq.top();
+            pq.pop();
+            sum -= nums1[it.second];
+            sum += v[i].first;
+            pq.push({nums2[v[i].second],v[i].second});
+            long long mx = sum*(pq.top().first);
+            ans = max(ans,mx);
+        }
+        return ans;
+
+    }
+};
