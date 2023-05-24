@@ -1,0 +1,45 @@
+class Solution {
+public:
+    vector<int> asteroidCollision(vector<int>& astr) {
+        vector<int> ans;
+        for(int i=0; i<astr.size(); i++){
+            if(ans.size()==0 || astr[i] > 0){
+                ans.push_back(astr[i]);
+            }
+            else{
+                int temp = ans.back();
+                bool flag = true;
+                if((temp > 0 && astr[i] < 0) || (temp < 0 && astr[i] > 0)){
+                    while(ans.size()){
+                        int temp = ans.back();
+                        if((temp > 0 && astr[i] < 0) || (temp < 0 && astr[i] > 0)){
+                            if(abs(astr[i]) > abs(temp)){
+                                flag = true;
+                                ans.pop_back();
+                            }
+                            else if(abs(astr[i]) < abs(temp)){
+                                break;
+                            }
+                            else{
+                                ans.pop_back();
+                                flag = false;
+                                break;
+                            }
+                        }
+                        else{
+                            ans.push_back(astr[i]);
+                            break;
+                        }
+                    }
+                    if(ans.size()==0 && flag){
+                        ans.push_back(astr[i]);
+                    }
+                }
+                else{
+                    ans.push_back(astr[i]);
+                }
+            }
+        }
+        return ans;
+    }
+};
