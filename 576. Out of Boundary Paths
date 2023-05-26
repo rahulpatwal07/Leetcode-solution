@@ -1,0 +1,30 @@
+class Solution {
+    int dr[4] = {1,-1,0,0};
+    int dc[4] = {0,0,1,-1};
+    int mod = 1e9 + 7;
+    int solve(int m, int n, int mx, int r, int c,vector<vector<vector<int>>> &dp){
+        if(r<0 || c<0 || r>=m || c>=n){
+            return 1;
+        }
+        if(mx<=0){
+            return 0;
+        }
+        if(dp[mx][r][c]!=-1){
+            return dp[mx][r][c];
+        }
+        int ans = 0;
+        for(int i=0; i<4; i++){
+            int temp = solve(m,n,mx-1,r+dr[i],c+dc[i],dp);
+            temp %= mod;
+            ans += temp;
+            ans %= mod;
+        }
+        return dp[mx][r][c] = ans;
+
+    }
+public:
+    int findPaths(int m, int n, int maxMove, int startRow, int startColumn) {
+        vector<vector<vector<int>>> dp(maxMove+1,vector<vector<int>>(m+2,vector<int>(n+2,-1)));
+         return solve(m,n,maxMove,startRow,startColumn,dp);
+    }
+};
