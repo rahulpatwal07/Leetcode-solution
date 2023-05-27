@@ -1,0 +1,21 @@
+class Solution {
+public:
+    int flipgame(vector<int>& fronts, vector<int>& backs) {
+        map<int,int> mp;
+        for(int i=0; i<fronts.size(); i++){
+            mp[fronts[i]] = 1;
+            mp[backs[i]] = 1;
+        }
+        for(int i=0; i<fronts.size(); i++){
+            if(fronts[i]==backs[i]){
+                mp[fronts[i]] = 0;
+            }
+        }
+        for(auto it : mp){
+            if(it.second == 1){
+                return it.first;
+            }
+        }
+        return 0;
+    }
+};
