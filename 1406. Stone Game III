@@ -1,0 +1,73 @@
+class Solution {
+    // int solve(vector<int>& v, int index,int flag,vector<vector<int>>& dp){
+    //     if(index==v.size())return 0;
+    //     if(dp[index][flag]!=-1)return dp[index][flag];
+    //     if(flag){
+    //         int one = INT_MIN,second = INT_MIN,third = INT_MIN;
+    //         one = v[index] + solve(v,index+1,!flag,dp);
+    //         if(index+1<v.size()){
+    //             second = v[index]+v[index+1] + solve(v,index+2,!flag,dp);
+    //         }
+    //         if(index+2<v.size()){
+    //             third = v[index+2]+v[index]+v[index+1] + solve(v,index+3,!flag,dp);
+    //         }
+    //         return dp[index][flag] = max(one,max(second,third));
+    //     }
+    //     else{ 
+    //         int one = INT_MAX,second = INT_MAX,third = INT_MAX;
+    //         one = -v[index] + solve(v,index+1,!flag,dp);
+    //         if(index+1<v.size()){
+    //             second = -v[index]-v[index+1] + solve(v,index+2,!flag,dp);
+    //         }
+    //         if(index+2<v.size()){
+    //             third = -v[index+2]-v[index]-v[index+1] + solve(v,index+3,!flag,dp);
+    //         }
+    //         return dp[index][flag] = min(one,min(second,third));
+    //     }
+    // }
+public:
+    string stoneGameIII(vector<int>& v) {
+        //memorization
+        // vector<vector<int>> dp(stoneValue.size(),vector<int>(2,-1));
+        // int ans = solve(stoneValue,0,1,dp);
+        // if(ans==0)return "Tie";
+        // if(ans>0)return "Alice";
+        // return "Bob";
+
+        //tabulation
+        int n = v.size();
+        vector<vector<int>> dp(n+1,vector<int>(2,0));
+        for(int index=n-1; index>=0; index--){
+            int ans = 0;
+            for(int flag=0; flag<2; flag++){
+                if(flag){
+                    int one = INT_MIN,second = INT_MIN,third = INT_MIN;
+                    one = v[index] + dp[index+1][!flag];
+                    if(index+1<v.size()){
+                        second = v[index]+v[index+1] + dp[index+2][!flag];
+                    }
+                    if(index+2<v.size()){
+                        third = v[index+2]+v[index]+v[index+1] + dp[index+3][!flag];
+                    }
+                    ans = max(one,max(second,third));
+                }
+                else{ 
+                    int one = INT_MAX,second = INT_MAX,third = INT_MAX;
+                    one = -v[index] + dp[index+1][!flag];
+                    if(index+1<v.size()){
+                        second = -v[index]-v[index+1] + dp[index+2][!flag];
+                    }
+                    if(index+2<v.size()){
+                        third = -v[index+2]-v[index]-v[index+1] + dp[index+3][!flag];
+                    }
+                    ans= min(one,min(second,third));
+                }
+            dp[index][flag] = ans;
+            }
+        }
+        int ans = dp[0][1];
+        if(ans==0)return "Tie";
+        if(ans>0)return "Alice";
+        return "Bob";
+    }
+};
