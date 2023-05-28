@@ -1,0 +1,42 @@
+class Solution {
+    int mod = 1e9+7;
+public:
+    int numberOfWays(string s) {
+        int n =  s.length();
+        long long cnt = 1;
+        int index = n-1;
+        while(index>=0){
+            int st = 0;
+            while(index>=0){
+                if(s[index]=='S'){
+                    st++;
+                }
+                if(st==2){
+                    break;
+                }
+                index--;
+            }
+            if(st!=2){
+                return 0;
+            }
+            if(st==2){
+                int plt = 0;
+                int j = index-1;
+                while(j>=0 && s[j]=='P'){
+                    plt++;
+                    j--;
+                }
+                index = j;
+                if(j<0){
+                    cnt *= 1;
+                }
+                else{
+                    cnt = (plt+1)*cnt;
+                    cnt %= mod;
+                }
+            }
+            
+        }
+        return (int)cnt;
+    }
+};
