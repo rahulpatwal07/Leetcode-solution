@@ -1,0 +1,159 @@
+class Solution {
+    int mod = 1e9+7;
+    // int solve(string s, int index,vector<int> &dp){
+    //     if(index==s.length()){
+    //         return 1;
+    //     }
+    //     if(s[index]=='0'){
+    //         return 0;
+    //     }
+    //     if(dp[index]!=-1){
+    //         return dp[index];
+    //     }
+    //     int cnt = 0;
+    //     int one = solve(s,index+1,dp)%mod;
+    //     int two = 0;
+    //     if(index+1<s.length()){
+    //         two = solve(s,index+2,dp)%mod;
+    //     }
+    //     if(s[index]=='*'){
+    //         for(int j=1;j<=9;j++){
+    //             cnt += one;
+    //             cnt %= mod;
+    //         }
+    //         if(index+1<s.length()){
+    //             if(s[index+1]=='*'){
+    //                 for(int i=0; i<15; i++){
+    //                     cnt += two;
+    //                     cnt %= mod;
+    //                 }
+    //             }
+    //             else{
+    //                 cnt += two;
+    //                 cnt %= mod;
+    //                 if(s[index+1]<='6'){
+    //                     cnt += two;
+    //                     cnt %= mod;
+    //                 }
+    //             }
+    //         }
+    //     }
+    //     else if(index+1==s.length() || s[index]>'2'){
+    //         cnt = one;
+    //         cnt %= mod;
+    //     }
+    //     else{
+    //         if(s[index]=='1'){
+    //             cnt += one;
+    //             cnt %= mod;
+    //             if(s[index+1]=='*'){
+    //                 for(int i=0; i<9; i++){
+    //                     cnt += two;
+    //                     cnt %= mod;
+    //                 }
+    //             }
+    //             else{
+    //                 cnt += two;
+    //                 cnt %= mod;
+    //             }
+    //         }
+    //         else{
+    //             cnt += one;
+    //             cnt %= mod;
+    //             if(s[index+1]=='*'){
+    //                 for(int i=0; i<6; i++){
+    //                     cnt += two;
+    //                     cnt %= mod;
+    //                 }
+    //             }
+
+    //             else if(s[index+1] <= '6'){
+    //                 cnt += two;
+    //                 cnt %= mod;
+    //             }
+    //         }
+    //     }
+    //     return dp[index] = cnt;
+    // }
+public:
+    int numDecodings(string s) {
+        int n = s.length();
+        // vector<int> dp(n,-1);
+        // return solve(s,0,dp);
+        int var1 = 1;
+        int var2 = 0;
+        for(int index=n-1; index>=0; index--){
+            if(s[index]=='0'){
+                var2 = var1;
+                var1 = 0;
+                continue;
+            }
+            int cnt = 0;
+            int one = var1%mod;
+            int two = 0;
+            if(index+1<s.length()){
+                two = var2%mod;
+            }
+            if(s[index]=='*'){
+                for(int j=1;j<=9;j++){
+                    cnt += one;
+                    cnt %= mod;
+                }
+                if(index+1<s.length()){
+                    if(s[index+1]=='*'){
+                        for(int i=0; i<15; i++){
+                            cnt += two;
+                            cnt %= mod;
+                        }
+                    }
+                    else{
+                        cnt += two;
+                        cnt %= mod;
+                        if(s[index+1]<='6'){
+                            cnt += two;
+                            cnt %= mod;
+                        }
+                    }
+                }
+            }
+            else if(index+1==s.length() || s[index]>'2'){
+                cnt = one;
+                cnt %= mod;
+            }
+            else{
+                if(s[index]=='1'){
+                    cnt += one;
+                    cnt %= mod;
+                    if(s[index+1]=='*'){
+                        for(int i=0; i<9; i++){
+                            cnt += two;
+                            cnt %= mod;
+                        }
+                    }
+                    else{
+                        cnt += two;
+                        cnt %= mod;
+                    }
+                }
+                else{
+                    cnt += one;
+                    cnt %= mod;
+                    if(s[index+1]=='*'){
+                        for(int i=0; i<6; i++){
+                            cnt += two;
+                            cnt %= mod;
+                        }
+                    }
+
+                    else if(s[index+1] <= '6'){
+                        cnt += two;
+                        cnt %= mod;
+                    }
+                }
+            }
+            var2 = var1;
+            var1 = cnt;
+        }
+        return var1;
+    }
+};
