@@ -1,0 +1,24 @@
+class Solution {
+    int solve(vector<int>&cuts, int s, int e,int left,int right,vector<vector<int>> &dp){
+        if(s==e){
+            return 0;
+        }
+        if(dp[s][e]!=-1){
+            return dp[s][e];
+        }
+        int cnt = 1e9;
+        for(int i=s; i<e; i++){
+            int first = solve(cuts,s,i,left,cuts[i],dp);
+            int second = solve(cuts,i+1,e,cuts[i],right,dp);
+            cnt = min(cnt,first+second+right-left);
+        }
+        return dp[s][e] = cnt;
+    }
+public:
+    int minCost(int n, vector<int>& cuts) {
+        int n1 = cuts.size();
+        vector<vector<int>> dp(n1,vector<int>(n1+1,-1));
+        sort(cuts.begin(),cuts.end());
+        return solve(cuts,0,n1,0,n,dp);
+    }
+};
