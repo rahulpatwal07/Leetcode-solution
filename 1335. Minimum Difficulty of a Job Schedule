@@ -1,0 +1,38 @@
+class Solution {
+    int solve(vector<int>&jd, int d,int e,vector<vector<int>> &dp){
+        if(d==0){
+            int mx = -1;
+            for(int i=e+1; i<jd.size(); i++){
+                mx = max(mx, jd[i]);
+            }
+            return mx;
+        }
+        if(e!=-1 && dp[d][e]!=-1){
+            return dp[d][e];
+        }
+        int mx = -1;
+        int ans = 1e9;
+        for(int i=e+1; i<jd.size()-1; i++){
+            mx = max(mx,jd[i]);
+            ans = min(ans,mx+solve(jd,d-1,i,dp));
+        }
+        if(e!=-1){
+            dp[d][e] = ans;
+        }
+        return ans;
+
+    }
+public:
+    int minDifficulty(vector<int>& jd, int d) {
+        int n = jd.size();
+        if(n < d){
+            return -1;
+        }
+        if(n == d){
+            int sum = accumulate(jd.begin(),jd.end(),0);
+            return sum;
+        }
+        vector<vector<int>> dp(d,vector<int>(n,-1));
+        return solve(jd,d-1,-1,dp);
+    }
+};
