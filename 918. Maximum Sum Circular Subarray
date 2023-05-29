@@ -1,0 +1,25 @@
+class Solution {
+public:
+    int maxSubarraySumCircular(vector<int>& nums) {
+        // kadane
+        int sum = 0,n = nums.size(), ans = -1e9;
+        for(int i=0; i<n; i++){
+            sum += nums[i];
+            ans = max(ans,sum);
+            if(sum<0)sum = 0;
+        }
+        vector<int> maxSuf(n,0);
+        sum = nums[n-1];
+        maxSuf[n-1] = nums[n-1];
+        for(int i=n-2; i>=0; i--){
+            sum +=  + nums[i];
+            maxSuf[i] = max(sum,maxSuf[i+1]);
+        }
+        sum = 0;
+        for(int i=0; i<n-1; i++){
+            sum += nums[i];
+            ans = max(ans,sum+maxSuf[i+1]);
+        }
+        return ans;
+    }
+};
