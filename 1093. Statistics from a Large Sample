@@ -1,0 +1,60 @@
+class Solution {
+public:
+    vector<double> sampleStats(vector<int>& count) {
+        vector<double> ans;
+        double mx = -1;
+        double mn = -1;
+        double sum = 0;
+        double n = 0;
+        double mostOcur = 0;
+        int cnt = 0;
+        for(int i=0; i<count.size(); i++){
+            if(count[i]>0){
+                if(mn==-1){
+                    mn = i;
+                }
+                mx = i;
+                sum += 1LL*i*count[i];
+                n += count[i];
+                if(count[i] > cnt){
+                    cnt = count[i];
+                    mostOcur = i;
+                }
+            }
+        }
+        double avg = (1.0*sum)/n;
+        ans.push_back(mn);
+        ans.push_back(mx);
+        ans.push_back(avg);
+        int ind2 = -1,ind1 = -1;
+        int n1 = 0;
+        if((int)n%2==0){
+            ind1 = (int)n/2;
+            ind2 = (int)n/2 + 1;
+        }
+        else{
+            ind1 = (int)(n+1)/2;
+        }
+        int m1 = -1,m2 = -1;
+        for(int i=0; i<count.size(); i++){
+            n1 += count[i];
+            if(n1 >= ind1 && m1==-1){
+                m1 = i;
+            }
+            if((int)n%2==0 && n1 >= ind2 && m2 == -1){
+                m2 = i;
+                break;
+            }
+        }
+        if((int)n%2==0){
+            double med = (1.0*(m1+m2))/2;
+            ans.push_back(med);
+        }
+        else{
+            double med = (double)m1;
+            ans.push_back(med);
+        }
+        ans.push_back(mostOcur);
+        return ans;
+    }
+};
