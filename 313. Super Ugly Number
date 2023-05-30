@@ -1,0 +1,23 @@
+class Solution {
+public:
+    int nthSuperUglyNumber(int n, vector<int>& primes) {
+        vector<long long> res(n);
+        int m = primes.size();
+        vector<int> pointer(m,0);
+        res[0] = 1;
+        for(int i=1; i<n; i++){
+            long long mn = 1LL*res[pointer[0]]*primes[0];
+            for(int j=1; j<m; j++){
+                mn = min(mn,1LL*res[pointer[j]]*primes[j]);
+            }
+            for(int j=0; j<m; j++){
+                if(mn==1LL*res[pointer[j]]*primes[j]){
+                    pointer[j]++;
+                }
+            }
+            res[i] = mn;
+        }
+        return (int)res[n-1];
+
+    }
+};
