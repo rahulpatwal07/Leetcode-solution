@@ -1,0 +1,35 @@
+class Solution {
+    int mn = 1e9;
+public:
+    int longestSquareStreak(vector<int>& nums) {
+        int n = nums.size();
+        sort(nums.begin(),nums.end());
+        vector<int> vis(n,0);
+        map<int,int> mp;
+        int mx = sqrt(nums[n-1]) + 1;
+        for(int i=0; i<n; i++){
+            mp[nums[i]] = i;
+        }
+        int ans = -1;
+        for(int i=0; i<nums.size(); i++){
+            if(vis[i]==0){
+                long long temp = 1LL*nums[i];
+                int cnt = 0;
+                while(mp.find(temp)!=mp.end()){
+                    cnt++;
+                    vis[mp[temp]] = 1;
+                    if(temp <= mx){
+                        temp *= temp;
+                    }
+                    else{
+                        break;
+                    }
+                }
+                if(cnt>=2){
+                    ans = max(ans,cnt);
+                }
+            }
+        }
+        return ans;
+    }
+};
