@@ -1,0 +1,25 @@
+class Solution {
+public:
+    int numSub(string s) {
+        int i = -1;
+        int j = -1;
+        long long cnt = 0;
+        int mod = 1e9+7;
+        for(int k=0; k<s.length(); k++){
+            if(s[k]=='1'){
+                int i = k;
+                int j = k;
+                while(j<s.length() && s[j]=='1'){
+                    j++;
+                }
+                int l = j-i;
+                for(int x=1; x<=l; x++){
+                    cnt += (l-x+1);
+                    cnt %= mod;
+                }
+                k = j;
+            }
+        }
+        return cnt;
+    }
+};
