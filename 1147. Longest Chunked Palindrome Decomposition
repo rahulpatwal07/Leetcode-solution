@@ -1,0 +1,38 @@
+class Solution {
+public:
+    int longestDecomposition(string text) {
+        int cnt = 0;
+        int n = text.length();
+        int i = 0;
+        int j = n-1;
+        int e = j;
+        while(i<=j){
+            if(i==j){
+                cnt++;
+                break;
+            }
+            if(text[i]==text[j]){
+                int d = e-j+1;
+                int ind = i;
+                bool flag = true;
+                for(int k=j; k<=e; k++){
+                    if(text[ind]!=text[k]){
+                        flag = false;
+                        break;
+                    }
+                    ind++;
+                }
+                if(flag){
+                    i = ind;
+                    cnt+=2;
+                    e = j-1;
+                }
+                j--;
+            }
+            else{
+                j--;
+            }
+        }
+        return cnt;
+    }
+};
