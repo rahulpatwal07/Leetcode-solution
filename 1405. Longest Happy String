@@ -1,0 +1,56 @@
+class Solution {
+public:
+    string longestDiverseString(int a, int b, int c) {
+        priority_queue<pair<int,char>> pq;
+        pq.push({a,'a'});
+        pq.push({b,'b'});
+        pq.push({c,'c'});
+        string s = "";
+        while(pq.size()>1){
+            auto it1 = pq.top();
+            pq.pop();
+            auto it2 = pq.top();
+            pq.pop();
+            int f = it1.first;
+            char ch1 = it1.second;
+            int sec = it2.first;
+            char ch2 = it2.second; 
+            if(f>0 && sec>0){
+                if(f>sec){
+                    s += ch1;
+                    f--;
+                    if(f>0){
+                        s += ch1;
+                        f--;
+                    }
+                    if(sec>0){
+                        s += ch2;
+                        sec--;
+                    }
+                }
+                else if(sec>0){
+                    s += ch1;
+                    s += ch2;
+                    f--;
+                    sec--;
+                }
+            }
+            if(f>0){
+                pq.push({f,ch1});
+            }
+            if(sec>0){
+                pq.push({sec,ch2});
+            }
+        }
+        if(pq.size() && s.back() != pq.top().second){
+            if(pq.top().first>=2){
+                s += pq.top().second;
+                s += pq.top().second;
+            }
+            else if(pq.top().first==1){
+                s += pq.top().second;
+            }
+        }
+        return s;
+    }
+};
