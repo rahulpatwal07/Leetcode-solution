@@ -1,0 +1,17 @@
+class Solution {
+    int mod = 1e9+7;
+public:
+    int countHousePlacements(int n) {
+        int prev1 = 1;
+        int prev2 = 1;
+        for(int i=n; i>=1; i--){
+            int f = prev1%mod;
+            int s = prev2%mod;
+            int curr = (f+s)%mod;
+            prev2 = prev1;
+            prev1 = curr;
+        }
+        long long ans = prev1%mod;
+        return (ans*ans)%mod;
+    }
+};
