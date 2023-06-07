@@ -1,0 +1,27 @@
+class Solution {
+public:
+    int minFlips(int a, int b, int c) {
+        int temp = a | b;
+        int cnt = 0;
+        while(c>0 || temp>0){
+            if((c&1) != (temp&1)){
+                if(c&1){
+                    cnt++;
+                }
+                else{
+                    if(a&1){
+                        cnt++;
+                    }
+                    if(b&1){
+                        cnt++;
+                    }
+                }
+            }
+            c >>= 1;
+            temp >>= 1;
+            a >>= 1;
+            b>>= 1;
+        }
+        return cnt;
+    }
+};
