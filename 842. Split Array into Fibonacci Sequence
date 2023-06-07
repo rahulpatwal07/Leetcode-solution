@@ -1,0 +1,35 @@
+class Solution {
+    bool solve(string num,vector<int>& v,int ind){
+        if(ind==num.length() && v.size()>=3){
+            return true;
+        }
+        long long temp = 0;
+        for(int i=ind; i<num.length(); i++){
+            temp = temp*10 + num[i]-'0';
+            if(temp>INT_MAX){
+                break;
+            }
+            if(i>ind && temp<=9){
+                break;
+            }
+            if(v.size() >=2 && (long long)v[v.size()-1] + (long long)v[v.size()-2] != temp){
+                continue;
+            }
+            v.push_back(temp);
+            if(solve(num,v,i+1)){
+                return true;
+            }
+            v.pop_back();
+        }
+
+        return false;
+
+
+    }
+public:
+    vector<int> splitIntoFibonacci(string num) {
+        vector<int> v;
+        if(solve(num,v,0)==true && v.size()>=3) return v;
+        return {};
+    }
+};
