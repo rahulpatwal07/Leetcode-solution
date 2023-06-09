@@ -1,0 +1,58 @@
+class ATM {
+public:
+    vector<long long> v;
+    int check[5] = {20,50,100,200,500};
+    ATM() {
+        v.resize(5,0);
+    }
+    
+    void deposit(vector<int> banknotesCount) {
+        for(int i=0; i<banknotesCount.size(); i++){
+            v[i] += banknotesCount[i];
+        }
+    }
+    
+    vector<int> withdraw(int amount) {
+        long long a1 = amount;
+        for(int i=4; i>=0; i--){
+            int div = a1/check[i];
+            if(div>0){
+                if(v[i] >= div){
+                    a1 -= div*check[i];
+                }
+                else{
+                    a1 -= v[i]*check[i];
+                }
+            }
+        }
+        if(a1>0){
+            return {-1};
+        }
+        vector<int> ans(5,0);
+
+        for(int i=4; i>=0; i--){
+            int div = amount/check[i];
+            if(div>0){
+                if(v[i] >= div){
+                    amount -= div*check[i];
+                    ans[i] = div;
+                    v[i] -= div;
+                }
+                else{
+                    amount -= v[i]*check[i];
+                    ans[i] = v[i];
+                    v[i] = 0;
+                }
+            }
+        }
+        return ans;
+
+    }
+};
+
+/**
+ * Your ATM object will be instantiated and called as such:
+ * ATM* obj = new ATM();
+ * obj->deposit(banknotesCount);
+ * vector<int> param_2 = obj->withdraw(amount);
+ */
