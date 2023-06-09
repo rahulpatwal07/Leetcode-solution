@@ -1,0 +1,44 @@
+#include <bits/stdc++.h>
+
+using namespace std;
+
+#define IOS                  \
+    ios::sync_with_stdio(0); \
+    cin.tie(0);              \
+    cout.tie(0);
+#define endl "\n"
+#define ll long long
+
+void solve(){
+    ll h1,h2;cin>>h1>>h2;
+    ll a,b;cin>>a>>b;
+    ll sum = 8*a;
+    ll diff = h2-h1;
+    if(a<=b){
+        if(sum>=diff){
+            cout<<"0\n";
+        }
+        else{
+            cout<<"-1\n";
+        }
+        return ;
+    }
+    ll cnt = 0;
+    while(sum<diff){
+        sum -= 12*b;
+        sum += 12*a;
+        cnt++;
+    }
+    cout<<cnt<<endl;
+}
+
+int32_t main()
+{
+    IOS;
+    ll t;
+    // cin>>t;
+    // while(t--){
+    solve();
+    // }
+    return 0;
+}
