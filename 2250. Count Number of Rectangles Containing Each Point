@@ -1,0 +1,22 @@
+class Solution {
+public:
+    vector<int> countRectangles(vector<vector<int>>& rec, vector<vector<int>>& p) {
+        vector<int> ans(p.size(),0);
+        vector<vector<int>> temp(101);
+        for(auto it : rec){
+            temp[it[1]].push_back(it[0]);
+        }
+        for(auto &it : temp){
+            sort(it.begin(),it.end());
+        }
+        for(int i=0; i<p.size(); i++){
+            int x = p[i][0];
+            int y = p[i][1];
+            for(int j=y; j<=100; j++){
+                ans[i] += temp[j].end() - lower_bound(temp[j].begin(),temp[j].end(),x);
+            }
+        }
+        return ans;
+
+    }
+};
