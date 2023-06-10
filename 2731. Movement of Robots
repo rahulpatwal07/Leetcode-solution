@@ -1,0 +1,21 @@
+class Solution {
+public:
+    int sumDistance(vector<int>& nums, string s, int d) {
+        int mod = 1e9+7;
+        for(int j=0; j<s.length(); j++){
+            if(s[j]=='R'){
+                nums[j] += d;
+            }
+            else nums[j] -= d;
+        }
+        long long ans = 0;
+        long long sum = 0;
+        sort(nums.begin(),nums.end());
+        for(int i=0; i<nums.size(); i++){
+            ans += (long long)nums[i]*i - sum;
+            ans %= mod;
+            sum += (long long)nums[i];
+        }
+        return (int)ans;
+    }
+};
