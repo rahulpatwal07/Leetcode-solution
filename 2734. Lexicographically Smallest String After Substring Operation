@@ -1,0 +1,22 @@
+class Solution {
+public:
+    string smallestString(string s) {
+        int i = 0;
+        int j = 0;
+        while(i<s.length() && s[i]=='a'){
+            i++;
+        }
+        if(i==s.length()){
+            s[s.length()-1] = 'z';
+            return s;
+        }
+        j = i;
+        string alp = "abcdefghijklmnopqrstuvwxyz";
+        while(j<s.length() && s[j]!='a'){
+            int ind = s[j] - 'a';
+            s[j] = alp[ind-1];
+            j++;
+        }
+        return s;
+    }
+};
