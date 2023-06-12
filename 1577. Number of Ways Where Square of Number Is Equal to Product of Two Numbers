@@ -1,0 +1,30 @@
+class Solution {
+public:
+    int numTriplets(vector<int>& nums1, vector<int>& nums2) {
+        unordered_map<long long,long long> mp1,mp2;
+        for(int i=0; i<nums1.size(); i++){
+            for(int j=i+1; j<nums1.size(); j++){
+                mp1[1LL*nums1[i]*nums1[j]]++;
+            }
+        }
+        
+        for(int i=0; i<nums2.size(); i++){
+            for(int j=i+1; j<nums2.size(); j++){
+                mp2[1LL*nums2[i]*nums2[j]]++;
+            }
+        }
+        int cnt = 0;
+        for(int i=0; i<nums1.size(); i++){
+            if(mp2.find(1LL*nums1[i]*nums1[i])!=mp2.end()){
+                cnt+=mp2[1LL*nums1[i]*nums1[i]];
+            }
+        }
+        
+        for(int i=0; i<nums2.size(); i++){
+            if(mp1.find(1LL*nums2[i]*nums2[i])!=mp1.end()){
+                cnt+=mp1[1LL*nums2[i]*nums2[i]];
+            }
+        }
+        return cnt;
+    }
+};
