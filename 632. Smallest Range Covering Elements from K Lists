@@ -1,0 +1,38 @@
+class Solution {
+public:
+    vector<int> smallestRange(vector<vector<int>>& nums) {
+        priority_queue<pair<int,int>,vector<pair<int,int>>,greater<pair<int,int>>> minHeap;
+        int maxi = -1e9;
+        vector<int> index(nums.size(),0);
+        for(int i=0; i<nums.size(); i++){
+            minHeap.push({nums[i][0],i});
+            maxi = max(maxi,nums[i][0]);
+        }
+        int mn = 1e9;
+        int mx = -1e9;
+        int diff = 1e9;
+        while(true){
+            auto it = minHeap.top();
+            minHeap.pop();
+            int d = maxi - it.first;
+            if(diff > d){
+                mn = it.first;
+                mx = maxi;
+                diff = d;
+            }
+            int ind = index[it.second]+1;
+            if(ind==nums[it.second].size()){
+                break;
+            }
+            else{
+                int val = nums[it.second][ind];
+                minHeap.push({val,it.second});
+                maxi = max(maxi,val);
+                index[it.second]++;
+            }
+        }
+        return {mn,mx};
+
+
+    }
+};
