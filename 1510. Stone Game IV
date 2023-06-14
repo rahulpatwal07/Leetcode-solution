@@ -1,0 +1,15 @@
+class Solution {
+public:
+    bool winnerSquareGame(int n) {
+        vector<int> dp(n+1,0);
+        for(int n1=0; n1<=n; n1++){
+            if(dp[n1]){
+                continue;
+            }
+            for(int i=1; n1+i*i<=n; i++){
+                dp[n1 + i*i] = true;
+            }
+        }
+        return dp[n];
+    }
+};
