@@ -1,0 +1,43 @@
+class Solution {
+    int mod = 1e9+7;
+    unordered_map<char,vector<char>> mp;
+    void createMap(){
+        mp['a'].push_back('e');
+        mp['e'].push_back('a');
+        mp['e'].push_back('i');
+        mp['i'].push_back('a');
+        mp['i'].push_back('e');
+        mp['i'].push_back('o');
+        mp['i'].push_back('u');
+        mp['o'].push_back('i');
+        mp['o'].push_back('u');
+        mp['u'].push_back('a');
+    }
+    int solve(int len,char last,vector<vector<int>>& dp){
+        if(len==0){
+            return 1;
+        }
+        if(dp[len][last-'a']!=-1){
+            return dp[len][last-'a'];
+        }
+        long long ans = 0;
+        for(auto it : mp[last]){
+            ans += solve(len-1,it,dp);
+            ans %= mod;
+        }
+        return dp[len][last-'a'] = ans;
+    }
+public:
+    int countVowelPermutation(int n) {
+       createMap();
+       vector<char> vowel = {'a','e','i','o','u'};
+        vector<vector<int>> dp(n+1,vector<int>(26,-1));
+       long long cnt = 0;
+       for(int i=0; i<5; i++){
+           cnt += solve(n-1,vowel[i],dp);
+           cnt %= mod;
+       }
+       return (int)cnt;
+    }
+
+};
