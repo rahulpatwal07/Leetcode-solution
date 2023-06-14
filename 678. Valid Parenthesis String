@@ -1,0 +1,42 @@
+class Solution {
+public:
+    bool checkValidString(string s) {
+        int cnt = 0;
+        int op = 0, clo = 0;
+        int n = s.length();
+        for(int i=0; i<n; i++){
+            if(s[i]==')')clo++;
+            else if(s[i]=='(') op++;
+            else cnt++;
+
+            if(clo > op){
+                if(cnt>0){
+                    cnt--;
+                    op++;
+                }
+                else{
+                    return false;
+                }
+            }
+        }
+        op = 0;
+        clo = 0;
+        cnt = 0;
+        for(int i=n-1; i>=0; i--){
+            if(s[i]==')')clo++;
+            else if(s[i]=='(') op++;
+            else cnt++;
+
+            if(clo < op){
+                if(cnt>0){
+                    cnt--;
+                    clo++;
+                }
+                else{
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+};
