@@ -1,0 +1,20 @@
+class Solution {
+    int mod = 1e9+7;
+public:
+    int rearrangeSticks(int n, int k) {
+        vector<int> prev(k+1,0);
+        vector<int> curr(k+1,0);
+        prev[0] = 1;
+        for(int n1 = 1; n1<=n; n1++){
+            for(int k1=1; k1<=k; k1++){
+                long long cnt1 = 1LL*prev[k1-1];
+                long long cnt2 = 1LL*(n1-1)*(prev[k1]);
+                cnt1 %= mod;
+                cnt2 %= mod;
+                curr[k1] = (cnt1+cnt2)%mod;
+            }
+            prev = curr;
+        }
+        return prev[k];
+    }
+};
