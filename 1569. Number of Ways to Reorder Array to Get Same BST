@@ -1,0 +1,29 @@
+class Solution {
+    int mod = 1e9+7;
+    vector<vector<long long>> nCr;
+    int solve(vector<int>& nums){
+        if(nums.size()<=2){return 1;}
+        long long ans ,first,second;
+        vector<int> left,right;
+        for(int i=1; i<nums.size(); i++){
+            if(nums[i] > nums[0]) right.push_back(nums[i]);
+            else left.push_back(nums[i]);
+        }
+        ans = nCr[left.size()+right.size()][left.size()]%mod;
+        first = solve(left)%mod;
+        second = solve(right)%mod;
+        return 1LL*(ans%mod*(1LL*first%mod*second%mod)%mod)%mod;
+    }
+public:
+    int numOfWays(vector<int>& nums) {
+        int n = nums.size();
+       nCr.resize(n + 1);
+         for(int i = 0; i < n + 1; ++i){
+            nCr[i] = vector<long long>(i + 1, 1);
+            for(int j = 1; j < i; ++j){
+                nCr[i][j] = (nCr[i-1][j-1] + nCr[i-1][j]) % mod;
+            }
+        }
+        return (solve(nums)-1)%mod;
+    }
+};
