@@ -1,0 +1,28 @@
+class Solution {
+    int mod = 1e9+7;
+    long long solve(vector<int>& locations, int cur, int fin,int fuel,vector<vector<long long>>& dp){
+        long long ans = 0;
+        if(cur==fin){
+            ans++;
+        }
+        if(dp[cur][fuel]!=-1){
+            return dp[cur][fuel];
+        }
+        for(int i=0; i<locations.size(); i++){
+            int diff = abs(locations[i] - locations[cur]);
+            if(i!=cur && fuel >= diff){
+                ans += 1LL*solve(locations,i,fin,fuel-diff,dp);
+                ans %= mod;
+            }
+        }
+        return dp[cur][fuel] = ans;
+    }
+public:
+    int countRoutes(vector<int>& locations, int start, int finish, int fuel) {
+        // int mx = *max_element(locations.begin(),locations.end());
+        vector<vector<long long>> dp(locations.size(),vector<long long>(fuel+1,-1));
+        long long ans = solve(locations,start,finish,fuel,dp);
+        ans %= mod;
+        return (int)ans;
+    }
+};
