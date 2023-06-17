@@ -1,0 +1,29 @@
+class Solution {
+    int mod = 1e9+7;
+    int dp[100001][7][7];
+    long long solve(int n, int last,int last2){
+        if(n==0){
+            return 1;
+        }
+        if(dp[n][last][last2]!=-1){
+            return dp[n][last][last2];
+        }
+        long long ans = 0;
+        for(int i=1; i<=6; i++){
+            if(i!=last && i!=last2 && (last==0 || __gcd(i,last)==1)){
+                ans += 1LL*solve(n-1,i,last);
+                ans %= mod;
+            }
+        }
+        return dp[n][last][last2] = ans;
+    }
+public:
+    int distinctSequences(int n) {
+        long long ans = 0;
+        int last = 0, last2 = 0;
+        memset(dp, -1, sizeof(dp));
+        ans += solve(n,last,last2);
+        ans %= mod;
+        return (int)ans;
+    }
+};
