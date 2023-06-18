@@ -1,0 +1,46 @@
+class Solution {
+    int mod = 1e9+7;
+    int dfs(int x, int y,vector<vector<int>>& grid,vector<vector<int>>& dp){
+        long long cnt = 1;
+        int dr[4] = {0,0,-1,1};
+        int dc[4] = {1,-1,0,0};
+        for(int i=0; i<4; i++){
+            int nx = x + dr[i];
+            int ny = y + dc[i];
+            if(nx>=0 && nx<grid.size() && ny>=0 && ny<grid[0].size() && grid[nx][ny] > grid[x][y]){
+                if(dp[nx][ny]!=-1){
+                    cnt += 1LL*dp[nx][ny];
+                    cnt %= mod;
+                }
+                else{
+                    cnt += 1LL*dfs(nx,ny,grid,dp);
+                    cnt %= mod;
+                }
+            }
+        }
+        return dp[x][y] = cnt%mod;
+
+    }
+public:
+    int countPaths(vector<vector<int>>& grid) {
+        int m = grid.size();
+        int n = grid[0].size();
+        vector<vector<int>> dp(m,vector<int>(n,-1));
+        for(int i=0; i<m; i++){
+            for(int j=0; j<n; j++){
+                if(dp[i][j]==-1){
+                    dp[i][j] = dfs(i,j,grid,dp);
+                }
+            }
+        }
+        long long ans = 0;
+
+        for(int i=0; i<m; i++){
+            for(int j=0; j<n; j++){
+                ans += 1LL*dp[i][j];
+                ans %= mod;
+            }
+        }
+        return ans;
+    }
+};
