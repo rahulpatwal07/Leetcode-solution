@@ -1,0 +1,33 @@
+class Solution {
+public:
+    string minWindow(string s, string t) {
+        vector<int> v1(200,0);
+        for(auto it : t){
+            v1[it]++;
+        }
+        int st = 0,e = 0, a1 = -1, cnt = t.length(), len = INT_MAX;
+        while(e < s.length()){
+            if(v1[s[e]] > 0){
+              cnt--;
+            }
+            v1[s[e]]--;
+            while(cnt==0){
+              if(e-st+1 < len){
+                len = e - st + 1;
+                a1 = st;
+              }
+              v1[s[st]]++;
+              if(v1[s[st]]>0){
+                cnt++;
+              }
+              st++;
+            }
+            e++;
+        }
+        if(a1==-1){
+            return "";
+        }
+        return s.substr(a1,len);
+        
+    }
+};
