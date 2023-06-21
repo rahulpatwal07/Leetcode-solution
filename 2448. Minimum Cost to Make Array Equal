@@ -1,0 +1,35 @@
+class Solution {
+    long long check(vector<vector<int>>& v, int val){
+        long long ans = 0;
+        for(int i=0; i<v.size(); i++){
+            int diff = abs(v[i][0] - val);
+            ans += 1LL*diff*v[i][1];
+        }
+        return ans;
+    }
+public:
+    long long minCost(vector<int>& nums, vector<int>& cost) {
+        vector<vector<int>> vec;
+        for(int i=0; i<nums.size(); i++){
+            vec.push_back({nums[i],cost[i]});
+        }
+        sort(vec.begin(),vec.end());
+        int l = vec[0][0];
+        int h = vec[vec.size()-1][0];
+        int ans = l;
+        while(l<h){
+            int mid = l + (h-l)/2;
+            long long f = check(vec,mid);
+            long long s = check(vec,mid+1);
+            if(f < s){
+                h = mid;
+                ans = h;
+            }
+            else{
+                l = mid+1;
+                ans = l;
+            }
+        }
+        return check(vec,ans);
+    }
+};
