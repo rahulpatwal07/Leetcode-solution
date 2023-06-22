@@ -1,0 +1,122 @@
+class Node{
+    public:
+    int val;
+    Node* next;
+    Node(){
+        this->val = 0;
+        this->next = nullptr;
+    }
+    Node(int val){
+        this->val = val;
+        this->next = nullptr;
+    }
+};
+class MyLinkedList {
+    Node* head;
+    Node* head2;
+    int size = 0;
+public:
+    MyLinkedList() {
+        head = nullptr;
+    }
+    
+    int get(int index) {
+        head2 = head;
+        int i = 0;
+        while(head2){
+            if(i==index){
+                return head2->val;
+            }
+            i++;
+            head2 = head2->next;
+        }
+        return -1;
+    }
+    
+    void addAtHead(int val) {
+        size++;
+        if(head==nullptr){
+            head = new Node(val);
+            return ;
+        }
+        Node * temp = new Node(val);
+        temp->next = head;
+        head = temp;
+    }
+    
+    void addAtTail(int val) {
+        size++;
+        if(head==nullptr){
+            head = new Node(val);
+            // tail = head;
+            return ;
+        }
+        Node * temp = new Node(val);
+        head2 = head;
+        while(head2->next){
+            head2 = head2->next;
+        }
+        head2->next = temp;
+
+    }
+    
+    void addAtIndex(int index, int val) {
+        head2 = head;
+        Node* temp2 = new Node(val);
+        if(index>size){
+            return ;
+        }
+        if(index==0){
+            temp2->next = head;
+            head = temp2;
+            return ;
+        }
+        int i = 0;
+        while(i<size){
+            if(i==index-1){
+                Node* n1 = head2->next;
+                head2->next = temp2;
+                temp2->next = n1;
+                size++;
+                break;
+            }
+            i++;
+            head2 = head2->next;
+
+        }
+
+    }
+    
+    void deleteAtIndex(int index) {
+        head2 = head;
+        if(index>=size){
+            return ;
+        }
+        if(index==0){
+            head = head->next;
+            size--;
+            return ;
+        }
+        int i = 0;
+        while(i<size){
+            if(i==index-1){
+                Node* n1 = head2->next;
+                head2->next = n1->next;
+                size--;
+                break;
+            }
+            i++;
+            head2 = head2->next;
+        }
+    }
+};
+
+/**
+ * Your MyLinkedList object will be instantiated and called as such:
+ * MyLinkedList* obj = new MyLinkedList();
+ * int param_1 = obj->get(index);
+ * obj->addAtHead(val);
+ * obj->addAtTail(val);
+ * obj->addAtIndex(index,val);
+ * obj->deleteAtIndex(index);
+ */
