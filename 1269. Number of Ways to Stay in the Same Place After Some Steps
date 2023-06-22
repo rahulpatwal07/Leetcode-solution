@@ -1,0 +1,19 @@
+class Solution {
+    int mod = 1e9+7;
+public:
+    int numWays(int steps, int arrLen) {
+        vector<int> curr(steps/2 + 2 ,0);
+        vector<int> prev(steps/2 + 2 ,0);
+        prev[0] = 1;
+        for(int s = 1; s<=steps; s++){
+            for(int index = steps/2; index>=0; index--){
+                int stay = prev[index]%mod;
+                int left = index>0?prev[index-1]%mod:0;
+                int right = index<arrLen-1?prev[index+1]%mod:0;
+                curr[index] = ((stay+left)%mod+right%mod)%mod;
+            }
+            prev = curr;
+        }
+        return curr[0];
+    }
+};
