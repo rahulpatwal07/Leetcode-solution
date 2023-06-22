@@ -1,0 +1,23 @@
+class Solution {
+public:
+    int maxProfit(vector<int>& prices, int fee) {
+        int n = prices.size();
+        vector<int> curr(2,0);
+        vector<int> next(2,0);
+        for(int ind=n-1; ind>=0; ind--){
+            for(int flag = 0; flag<2; flag++){
+                int first = next[flag];
+                int second = 0;
+                if(flag){
+                    second = next[!flag] - prices[ind];
+                }
+                else{
+                    second = next[!flag] + prices[ind] - fee;
+                }
+                curr[flag] = max(first,second);
+            }
+            next = curr;
+        }
+        return curr[1];
+    }
+};
